@@ -1,0 +1,27 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 2em;
+}
+
+#result {
+    margin-top: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#details {
+    list-style-type: none;
+    padding: 0;
+}
+
+#details li {
+    margin: 5px 0;
+    color: #555;
+}
