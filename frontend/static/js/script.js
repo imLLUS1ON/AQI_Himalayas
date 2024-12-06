@@ -1,4 +1,4 @@
-document.getElementById('locationDropdown').addEventListener('change', function() {
+document.getElementById('locationDropdown').addEventListener('change', function () {
     const selectedLocation = this.value;
 
     fetch(`/air_quality/${selectedLocation}`)
@@ -11,7 +11,9 @@ document.getElementById('locationDropdown').addEventListener('change', function(
 
         // Update location and AQI
         document.getElementById('location').innerText = data.location;
-        document.getElementById('aqi').innerText = data.AQI;
+
+        // Ensure AQI (Indian Standard) is updated
+        document.getElementById('aqi').innerText = data["AQI (Indian Standard)"] || "Data unavailable";
 
         // Update all components dynamically
         const details = data.details;
@@ -33,7 +35,8 @@ document.getElementById('locationDropdown').addEventListener('change', function(
         document.body.style.backgroundImage = `url(${backgroundMap[selectedLocation]})`;
     })
     .catch(err => console.error('Error fetching data:', err));
+
 });
 
-// Trigger initial load
+// Trigger the change event on page load to fetch data for the default location
 document.getElementById('locationDropdown').dispatchEvent(new Event('change'));

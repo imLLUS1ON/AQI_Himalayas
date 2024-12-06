@@ -6,9 +6,7 @@ from dotenv import load_dotenv
 # Load .env file to access the API key
 load_dotenv()
 
-# Specify the template folder explicitly
 app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend/templates")
-
 
 # API Configuration
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
@@ -21,9 +19,37 @@ LOCATIONS = {
     "Rudranath": {"lat": 30.53333, "lon": 79.33333}
 }
 
+# Function to calculate Indian AQI
+def calculate_indian_aqi(components):
+    # Pollutant breakpoints for Indian AQI
+    pollutant_ranges = {
+        "pm2_5": [(0, 30), (31, 60), (61, 90), (91, 120), (121, 250)],
+        "pm10": [(0, 50), (51, 100), (101, 250), (251, 350), (351, 430)],
+        "no2": [(0, 40), (41, 80), (81, 180), (181, 280), (281, 400)],
+        "so2": [(0, 40), (41, 80), (81, 380), (381, 800), (801, 1600)],
+        "co": [(0, 1), (1.1, 2), (2.1, 10), (10.1, 17), (17.1, 34)],
+        "o3": [(0, 50), (51, 100), (101, 168), (169, 208), (209, 748)]
+    }
+    
+    # Convert CO to mg/m³ (if needed)
+    components["co"] = components["co"] / 1000
+
+    aqi_values = []
+    for pollutant, ranges in pollutant_ranges.items():
+        if pollutant in components:
+            value = components[pollutant]
+            for i, (low, high) in enumerate(ranges):
+                if low <= value <= high:
+                    aqi_values.append((i + 1) * 50)
+                    break
+    
+    # Debugging log
+    print("Pollutants and calculated AQI sub-indices:", aqi_values)
+    return max(aqi_values) if aqi_values else 0
+
 @app.route('/')
 def home():
-    return render_template('index.html')  # Render the frontend
+    return render_template('index.html')
 
 @app.route('/air_quality/<location>')
 def air_quality(location):
@@ -35,11 +61,14 @@ def air_quality(location):
     url = f"{BASE_URL}?lat={latitude}&lon={longitude}&appid={API_KEY}"
 
     response = requests.get(url)
+    print(f"Fetching data for {location}: {response.status_code}")  # Debug API status
     if response.status_code == 200:
         data = response.json()
+        print(f"Data received for {location}:", data)  # Debug fetched data
+        aqi_indian = calculate_indian_aqi(data["list"][0]["components"])
         return jsonify({
             "location": location,
-            "AQI": data["list"][0]["main"]["aqi"],
+            "AQI": aqi_indian,
             "details": data["list"][0]["components"]
         })
     else:
