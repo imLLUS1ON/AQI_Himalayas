@@ -23,6 +23,14 @@ document.getElementById('locationDropdown').addEventListener('change', function(
         document.getElementById('pm10').innerText = details.pm10 || '-';
         document.getElementById('pm25').innerText = details.pm2_5 || '-';
         document.getElementById('so2').innerText = details.so2 || '-';
+
+        // Update the background image based on the selected location
+        const backgroundMap = {
+            "Kedarnath": "/static/images/kedarnathbaba1.jpg",
+            "Badrinath": "/static/images/badrinathbaba.jpg",
+            "Rudranath": "/static/images/Rudranathbaba.jpg"
+        };
+        document.body.style.backgroundImage = `url(${backgroundMap[selectedLocation]})`;
     })
     .catch(err => console.error('Error fetching data:', err));
 });

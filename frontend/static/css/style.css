@@ -1,0 +1,110 @@
+/* Body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-image: url('/static/images/kedarnathbaba1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    color: white;
+}
+/* Add lazy loading style */
+img[data-src] {
+    background: url('/static/images/placeholder.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+/* Main container */
+#result {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 1px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #000000;
+}
+
+/* Dropdown */
+select {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 35%;  
+    margin: 20px auto;  /* Centering the dropdown */
+    display: block;  /* Ensuring block display for centering */
+}
+/* Main result container */
+#result {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 15px;  /* Reduced padding */
+    max-width: 500px;  /* Make container smaller */
+    margin: 20px auto;
+    max-height: 800px;  /* Limit the height to prevent scrolling */
+    overflow-y: auto;  /* Add scroll if content exceeds the height */
+}
+
+/* Details section */
+#details {
+    margin-top: 10px;
+    list-style-type: none;
+    padding: 0;
+    max-height: 700px;  /* Smaller height */
+    overflow-y: auto;  /* Scrollable details */
+}
+
+#details li {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;  /* Smaller padding */
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    font-size: 14px;  /* Reduced font size */
+    border-radius: 5px;
+    color: #333;
+}
+
+/* Button styling */
+button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #ff4a39;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    select, #result {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    #details li {
+        font-size: 14px;
+    }
+}

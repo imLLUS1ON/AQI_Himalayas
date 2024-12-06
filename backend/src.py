@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Specify the template folder explicitly
-app = Flask(__name__, template_folder="../frontend/templates")
+app = Flask(__name__, static_folder="../frontend/static", template_folder="../frontend/templates")
+
 
 # API Configuration
 API_KEY = os.getenv("OPENWEATHER_API_KEY")

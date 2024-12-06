@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <script src="/static/js/script.js" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     <title>Air Quality Monitoring System</title>
 </head>
 <body>
     <h1>Air Quality Monitoring System</h1>
-    <p>Select a location to view air quality details:</p>
     <select id="locationDropdown">
         <option value="Kedarnath">Kedarnath</option>
         <option value="Badrinath">Badrinath</option>
@@ -20,7 +19,7 @@
         <h3>Air Quality Data</h3>
         <p><b>Location:</b> <span id="location">-</span></p>
         <p><b>AQI:</b> <span id="aqi">-</span></p>
-        <p><b>Details:</b></p>
+        <p><b>More Details:</b></p>
     <ul id="details">
     <li><b>CO:</b> <span id="co">-</span></li>
     <li><b>NH3:</b> <span id="nh3">-</span></li>
