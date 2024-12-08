@@ -13,10 +13,10 @@ document.getElementById('locationDropdown').addEventListener('change', function 
         document.getElementById('location').innerText = data.location;
 
         // Ensure AQI (Indian Standard) is updated
-        document.getElementById('aqi').innerText = data["AQI (Indian Standard)"] || "Data unavailable";
+        document.getElementById('aqi').innerText = data.AQI || "Data unavailable";
 
         // Update all components dynamically
-        const details = data.details;
+        const details = data.details || {};
         document.getElementById('co').innerText = details.co || '-';
         document.getElementById('nh3').innerText = details.nh3 || '-';
         document.getElementById('no').innerText = details.no || '-';
