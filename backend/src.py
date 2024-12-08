@@ -12,6 +12,10 @@ app = Flask(__name__, static_folder="../frontend/static", template_folder="../fr
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 BASE_URL = "http://api.openweathermap.org/data/2.5/air_pollution"
 
+# Check if API key is loaded
+if not API_KEY:
+    print("Error: OpenWeather API key is missing!")
+
 # Location data
 LOCATIONS = {
     "Kedarnath": {"lat": 30.734627, "lon": 79.066895},
@@ -30,9 +34,6 @@ def calculate_indian_aqi(components):
         "co": [(0, 1), (1.1, 2), (2.1, 10), (10.1, 17), (17.1, 34)],
         "o3": [(0, 50), (51, 100), (101, 168), (169, 208), (209, 748)]
     }
-    
-    # Convert CO to mg/m³ (if needed)
-    components["co"] = components["co"] / 1000
 
     aqi_values = []
     for pollutant, ranges in pollutant_ranges.items():
@@ -42,7 +43,7 @@ def calculate_indian_aqi(components):
                 if low <= value <= high:
                     aqi_values.append((i + 1) * 50)
                     break
-    
+
     # Debugging log
     print("Pollutants and calculated AQI sub-indices:", aqi_values)
     return max(aqi_values) if aqi_values else 0
@@ -61,18 +62,21 @@ def air_quality(location):
     url = f"{BASE_URL}?lat={latitude}&lon={longitude}&appid={API_KEY}"
 
     response = requests.get(url)
-    print(f"Fetching data for {location}: {response.status_code}")  # Debug API status
     if response.status_code == 200:
         data = response.json()
-        print(f"Data received for {location}:", data)  # Debug fetched data
-        aqi_indian = calculate_indian_aqi(data["list"][0]["components"])
+        components = data["list"][0]["components"]
+        
+        # Correct CO scale; no conversion needed
+        aqi_indian = calculate_indian_aqi(components)
+        
         return jsonify({
             "location": location,
-            "AQI": aqi_indian,
-            "details": data["list"][0]["components"]
+            "AQI": aqi_indian,  # Send AQI correctly
+            "details": components
         })
     else:
         return jsonify({"error": "Failed to fetch data"}), response.status_code
+
 
 if __name__ == '__main__':
     app.run(debug=True)
