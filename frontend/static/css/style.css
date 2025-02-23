@@ -50,11 +50,11 @@ select {
 #result {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    padding: 15px;  /* Reduced padding */
-    max-width: 500px;  /* Make container smaller */
+    padding: 15px;  
+    max-width: 500px; 
     margin: 20px auto;
-    max-height: 800px;  /* Limit the height to prevent scrolling */
-    overflow-y: auto;  /* Add scroll if content exceeds the height */
+    max-height: 800px;
+    overflow-y: auto; 
 }
 
 /* Details section */
